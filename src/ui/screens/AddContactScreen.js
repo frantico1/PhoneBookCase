@@ -56,8 +56,6 @@ export default function AddContactScreen({ navigation, route }) {
     }
 
     if (response.errorCode) {
-      console.log('ImagePicker Error code: ', response.errorCode);
-      console.log('ImagePicker Error message: ', response.errorMessage);
 
       let message = 'An error occurred while selecting the photo.';
 
@@ -87,7 +85,6 @@ export default function AddContactScreen({ navigation, route }) {
 
       return result === PermissionsAndroid.RESULTS.GRANTED;
     } catch (e) {
-      console.log('Camera permission error:', e);
       return false;
     }
   };
@@ -153,7 +150,6 @@ export default function AddContactScreen({ navigation, route }) {
           return;
         }
       } catch (err) {
-        console.log('Upload image failed:', err?.message || err);
         Alert.alert(
           'Error',
           'Photo upload failed. Please check your connection and try again.',

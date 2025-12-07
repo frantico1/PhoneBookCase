@@ -59,13 +59,11 @@ export default function ContactsScreen({ navigation, route }) {
         PermissionsAndroid.RESULTS.GRANTED;
 
       if (!readGranted || !writeGranted) {
-        console.log('Contacts permission denied: ', result);
-        return false;
+          return false;
       }
 
       return true;
     } catch (err) {
-      console.log('Contacts permission error: ', err);
       return false;
     }
   };
@@ -73,25 +71,19 @@ export default function ContactsScreen({ navigation, route }) {
   const loadSearchHistory = async () => {
     try {
       const history = await AsyncStorage.getItem(SEARCH_HISTORY_KEY);
-      console.log('📖 Loaded search history:', history);
       if (history) {
         const parsed = JSON.parse(history);
-        console.log('✅ Parsed history:', parsed);
         setSearchHistory(parsed);
       } else {
-        console.log('ℹ️ No search history found');
       }
     } catch (error) {
-      console.log('❌ Search history load error:', error);
     }
   };
 
   const saveSearchHistory = async history => {
     try {
       await AsyncStorage.setItem(SEARCH_HISTORY_KEY, JSON.stringify(history));
-      console.log('💾 Saved search history:', history);
     } catch (error) {
-      console.log('❌ Search history save error:', error);
     }
   };
 
@@ -199,7 +191,6 @@ export default function ContactsScreen({ navigation, route }) {
 
       setDevicePhoneMap(map);
     } catch (error) {
-      console.log('Device contacts load error:', error);
       setDevicePhoneMap({});
     }
   };
@@ -257,7 +248,6 @@ export default function ContactsScreen({ navigation, route }) {
       try {
         const granted = await requestContactsPermission();
         if (!granted) {
-          console.log('Device contact delete skipped: no permission');
         } else if (selectedContactForDelete?.phoneNumber) {
           const targetPhoneDigits = normalizePhone(
             selectedContactForDelete.phoneNumber || '',
@@ -274,7 +264,6 @@ export default function ContactsScreen({ navigation, route }) {
           }
         }
       } catch (contactError) {
-        console.log('Device contact delete error:', contactError);
       }
 
       await loadContacts();
@@ -282,7 +271,6 @@ export default function ContactsScreen({ navigation, route }) {
       setToastMessage('User is deleted!');
       setToastVisible(true);
     } catch (e) {
-      console.log('Delete contact error:', e);
       setError('Kişi silinirken bir hata oluştu.');
     } finally {
       setLoading(false);

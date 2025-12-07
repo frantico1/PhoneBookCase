@@ -62,13 +62,11 @@ export default function ProfileScreen({ navigation, route }) {
         PermissionsAndroid.RESULTS.GRANTED;
 
       if (!readGranted || !writeGranted) {
-        console.log('Contacts permission denied: ', result);
         return false;
       }
 
       return true;
     } catch (err) {
-      console.log('Contacts permission error: ', err);
       return false;
     }
   };
@@ -100,7 +98,6 @@ export default function ProfileScreen({ navigation, route }) {
         const exists = Array.isArray(matches) && matches.length > 0;
         setIsAlreadySaved(exists);
       } catch (e) {
-        console.log('Check device contact error:', e);
         setIsAlreadySaved(false);
       }
     };
@@ -126,7 +123,6 @@ export default function ProfileScreen({ navigation, route }) {
     }
 
     if (response.errorCode) {
-      console.log('ImagePicker Error: ', response.errorMessage);
       Alert.alert('Error', 'An error occurred while selecting the photo.');
       return;
     }
@@ -193,7 +189,6 @@ export default function ProfileScreen({ navigation, route }) {
       const base64 = await RNFS.readFile(filePath, 'base64');
       return base64;
     } catch (error) {
-      console.log('Image to base64 conversion error:', error);
       return null;
     }
   };
@@ -236,7 +231,6 @@ export default function ProfileScreen({ navigation, route }) {
       try {
         const granted = await requestContactsPermission();
         if (!granted) {
-          console.log('Device contact delete skipped: no permission');
         } else {
           const targetPhoneDigits = normalizePhone(
             editingContact.phoneNumber || '',
@@ -253,17 +247,12 @@ export default function ProfileScreen({ navigation, route }) {
           }
         }
       } catch (contactError) {
-        console.log('Device contact delete error:', contactError);
       }
 
       setDeleteModalVisible(false);
       setOptionsVisible(false);
       navigation.goBack();
     } catch (error) {
-      console.log(
-        'Delete contact error:',
-        error?.response?.data || error?.message || error,
-      );
       setDeleteModalVisible(false);
       Alert.alert('Error', 'An error occurred while deleting the contact.');
     }
@@ -290,7 +279,7 @@ export default function ProfileScreen({ navigation, route }) {
         if (!isAlreadySaved) {
           const granted = await requestContactsPermission();
           if (!granted) {
-            console.log('Device contact save skipped: no permission');
+            console.log('Cihaz rehberine kaydetme atlandı: izin yok');
           } else {
             const thumbnailPhoto = await convertImageToBase64(profileImage);
 
@@ -314,7 +303,6 @@ export default function ProfileScreen({ navigation, route }) {
           }
         }
       } catch (contactError) {
-        console.log('Device contact save error:', contactError);
       }
 
       setToastVisible(true);
@@ -322,10 +310,7 @@ export default function ProfileScreen({ navigation, route }) {
         setToastVisible(false);
       }, 2000);
     } catch (error) {
-      console.log(
-        'Save contact error:',
-        error?.response?.data || error?.message || error,
-      );
+      console.log('Kişi kaydedilirken hata:', error?.response?.data || error?.message || error);
       Alert.alert('Error', 'An error occurred while saving the contact.');
     }
   };

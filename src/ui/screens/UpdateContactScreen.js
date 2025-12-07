@@ -40,7 +40,7 @@ const requestContactsPermission = async () => {
 
     return readGranted && writeGranted;
   } catch (e) {
-    console.log('Contacts permission error:', e);
+    console.log('İzin hatası:', e);
     return false;
   }
 };
@@ -78,8 +78,6 @@ export default function UpdateContactScreen({ navigation, route }) {
     }
 
     if (response.errorCode) {
-      console.log('ImagePicker Error code: ', response.errorCode);
-      console.log('ImagePicker Error message: ', response.errorMessage);
 
       let message = 'An error occurred while selecting the photo.';
 
@@ -109,7 +107,6 @@ export default function UpdateContactScreen({ navigation, route }) {
 
       return result === PermissionsAndroid.RESULTS.GRANTED;
     } catch (e) {
-      console.log('Camera permission error:', e);
       return false;
     }
   };
@@ -218,14 +215,10 @@ export default function UpdateContactScreen({ navigation, route }) {
                 try {
                   await Contacts.updateContact(contactToUpdate);
                 } catch (updateErr) {
-                  console.log('Device contact update error:', updateErr);
                 }
               }
             }
           } else {
-            console.log(
-              'Contacts permission not granted, skipping device contact update',
-            );
           }
         }
 
@@ -233,10 +226,6 @@ export default function UpdateContactScreen({ navigation, route }) {
       navigation.navigate('Contacts', { updated: true });
     } catch (error) {
       setIsLoading(false);
-      console.log(
-        'Save contact error:',
-        error?.response?.data || error?.message || error,
-      );
       Alert.alert('Error', 'An error occurred while saving the contact.');
     }
   };

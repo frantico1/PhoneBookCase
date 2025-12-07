@@ -62,11 +62,6 @@ export const uploadImage = async formData => {
     });
     return res?.data;
   } catch (error) {
-    console.log(
-      'Upload image error:',
-      error?.response?.status,
-      error?.response?.data || error?.message || error,
-    );
     throw error;
   }
 };
